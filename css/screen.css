@@ -31,6 +31,7 @@
     --global-color-alpha-transparent: hsl(var(--global-color-alpha-hsl) / .75);
     --global-color-alpha-x-transparent: hsl(var(--global-color-alpha-hsl) / .3);
 
+    --global-color-white: white;
     --global-color-neutral-xxxx-light: #F5F6FA;
     --global-color-neutral-xxx-light: #E2E3E7;
     --global-color-neutral-xx-light: #caccd4;
@@ -70,12 +71,19 @@
     /*  = 72px */
 
     /*Input settings*/
-    --global-input-backgroundColor: White;
+    --global-input-backgroundColor: var(--global-color-white);
     --global-input-color: var(--global-color-neutral-xxxx-dark);
     --global-input-borderColor: var(--global-color-neutral-xxx-light);
     --global-input-hover-borderColor: var(--global-color-neutral-xx-light);
     --global-input-focus-borderColor: var(--global-color-alpha);
     --global-input-boxShadow: 0 0 0 3px var(--global-color-alpha-x-transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --global-page-color: var(--global-color-white);
+        --global-page-backgroundColor: var(--global-color-neutral-xxxx-dark);
+    }
 }
 
 /*------------------------------------*\
@@ -92,7 +100,7 @@ html {
     line-height: 1.5;
     font-family: "Inter Web", Helvetica, arial, sans-serif;
     color: var(--global-color-neutral-xxxx-dark);
-    background-color: var(--global-color-neutral-xxxx-light);
+    background-color: var(--global-page-backgroundColor, var(--global-color-neutral-xxxx-light));
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -113,7 +121,7 @@ html {
 
 ::selection {
     background: var(--global-color-alpha);
-    color: white;
+    color: var(--global-color-white);
     text-shadow: none;
 }
 
@@ -526,15 +534,23 @@ input::placeholder {
 }
 
 .c-logo__path--1 {
-    fill: var(--global-color-neutral-xxxx-dark);
+    fill: var(--logo__path--1--fill, var(--global-color-neutral-xxxx-dark));
 }
 
 .c-logo__path--2 {
-    fill: var(--global-color-alpha);
+    fill: var(--logo__path--2--fill, var(--global-color-alpha));
 }
 
 .c-logo__path--3 {
-    fill: var(--global-color-alpha-x-dark);
+    fill: var(--logo__path--3--fill, var(--global-color-alpha-x-dark));
+}
+
+@media (prefers-color-scheme: dark) {
+    .c-logo {
+        --logo__path--1--fill: var(--global-color-white);
+        --logo__path--2--fill: var(--logo__path--1--fill);
+        --logo__path--3--fill: var(--logo__path--1--fill);
+    }
 }
 
 /*
@@ -544,7 +560,7 @@ input::placeholder {
 */
 
 .c-card {
-    background-color: White;
+    background-color: var(--global-color-white);
     margin-bottom: var(--global-whitespace);
     border-radius: var(--global-borderRadius);
     box-shadow: 0 0 0 var(--global-borderWidth) rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, .075);
@@ -567,6 +583,20 @@ input::placeholder {
     font-size: 18px;
     line-height: calc(var(--global-baseline) * 3);
     font-weight: 600;
+}
+
+@media (prefers-color-scheme: dark){
+    .c-card{
+        background-color: var(--global-color-neutral-xxx-dark);
+    }
+
+    .c-card__footer{
+        border-top: var(--global-borderWidth) solid var(--global-color-neutral-xxxx-dark);
+    }
+
+    .c-card__title{
+        color: var(--global-color-white);
+    }
 }
 
 /* This allows c-card__body and __footer to have equal padding everywhere */
@@ -630,6 +660,18 @@ input::placeholder {
 .c-input:active {
     border-color: var(--global-color-alpha);
     box-shadow: 0 0 0 3px var(--global-color-alpha-x-transparent);
+}
+
+@media (prefers-color-scheme: dark) {
+    .c-input {
+        color: var(--global-color-neutral-dark);
+        border: var(--global-borderWidth) solid var(--global-color-neutral-xxxx-dark);
+        background-color: var(--global-color-neutral-xxxx-dark);
+    }
+
+    .c-input::placeholder{
+        color: var(--global-color-neutral-dark);
+    }
 }
 
 /* option input for checkboxes and radio buttons */
@@ -713,6 +755,13 @@ input::placeholder {
     border-radius: 100%;
 }
 
+@media (prefers-color-scheme: dark) {
+    .c-custom-option__fake-input {
+        border: var(--global-borderWidth) solid var(--global-color-neutral-xxxx-dark);
+        background-color: var(--global-color-neutral-xxxx-dark);
+    }
+}
+
 /*
     Component: Label
     ---
@@ -729,6 +778,12 @@ input::placeholder {
 
 .c-label--option {
     padding-bottom: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    .c-label {
+        color: var(--global-color-neutral-x-light);
+    }
 }
 
 /*
@@ -814,7 +869,7 @@ input::placeholder {
     transition: all var(--transition-alpha);
     border-radius: 100%;
     box-shadow: 0 1px 3px var(--global-color-neutral-xxx-light);
-    background-color: white;
+    background-color: var(--global-color-white);
 }
 
 .c-option--hidden:checked + .c-custom-toggle .c-custom-toggle__fake-input::after{
